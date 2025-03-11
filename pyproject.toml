@@ -1,0 +1,52 @@
+[project]
+name = "projeto-todo-list-gpt"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "redis (>=5.2.1,<6.0.0)",
+    "uvicorn (>=0.34.0,<0.35.0)",
+    "fastapi[standart] (>=0.115.11,<0.116.0)",
+    "pytz (>=2025.1,<2026.0)",
+]
+
+[tool.poetry]
+packages = [{include = "projeto_todo_list_gpt", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+ruff = "^0.9.10"
+taskipy = "^1.14.1"
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.pytest.ini_options]
+pythonpath = '.'
+addopts = "-p no:warning"
+
+[tool.taskipy.tasks]
+lint = 'ruff check'
+format = 'ruff check --fix; ruff format'
+test = 'pytest --cov=src -vv'
+run = 'fastapi dev src/main.py'
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
